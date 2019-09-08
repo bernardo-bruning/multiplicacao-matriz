@@ -5,8 +5,7 @@ mymatriz* matriz_vazia() {
   mymatriz* matriz = malloc(sizeof(mymatriz));
   matriz->lin = 0;
   matriz->col = 0;
-  malocar(matriz);
-  mzerar(matriz);
+  matriz->matriz = NULL;
   return matriz;
 }
 
