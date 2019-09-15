@@ -14,8 +14,8 @@ all: $(TARGET)
 %: %.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
-main: main.c matrizv3.c matriz-operacoesv3.c
-		$(CC) $(CCFLAGS) main.c matriz-operacoesv3.c matrizv3.c -o $@ $(LDFLAGS)
+main: main.c matrizv3.c matriz-operacoesv3.c main-test.c
+		$(CC) $(CCFLAGS) main.c matriz-operacoesv3.c matrizv3.c main-test.c -o $@ $(LDFLAGS)
 
 run: main
 	./main

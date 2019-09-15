@@ -42,3 +42,4 @@ matriz_bloco_t **liberar_submatriz (matriz_bloco_t **submatriz);
 int imprimir_bloco (matriz_bloco_t *submatriz);
 matriz_bloco_t **constroi_submatriz (int **matriz, int mat_lin, int mat_col, int divisor);
 matriz_bloco_t **constroi_submatrizv2 (int mat_lin, int mat_col, int divisor);
+matriz_bloco_t **csubmatrizv2(int mat_lin, int mat_col, int divisor);

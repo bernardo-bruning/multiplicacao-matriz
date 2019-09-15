@@ -91,3 +91,11 @@ int malocar(mymatriz* matriz) {
   }
   return 1;
 }
+
+matriz_bloco_t **particionar_matriz (int **matriz, int mat_lin, int mat_col, int orientacao, int divisor) {
+  return NULL;
+}
+
+matriz_bloco_t **csubmatrizv2(int mat_lin, int mat_col, int divisor){
+  return NULL;
+}
