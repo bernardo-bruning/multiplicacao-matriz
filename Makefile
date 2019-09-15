@@ -4,7 +4,7 @@
 CC = gcc
 CCFLAGS = -Wall -O3 -g
 LDFLAGS =
-TARGET = mainEx02 gmat mainEx01 help
+TARGET = mainEx02 gmat mainEx01 help main
 
 all: $(TARGET)
 
