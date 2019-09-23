@@ -2,7 +2,7 @@
 #include"matrizv3.h"
 #include"matriz-operacoesv3.h"
 #include"test.h"
-
+#include"main_tests.h"
 
 int test_msoma_diferente() {
   mymatriz matriz_a;
