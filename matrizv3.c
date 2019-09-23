@@ -92,8 +92,42 @@ int malocar(mymatriz* matriz) {
   return 1;
 }
 
-matriz_bloco_t **particionar_matriz (int **matriz, int mat_lin, int mat_col, int orientacao, int divisor) {
-  return NULL;
+int tamanho_bloco(int numero_linhas, int numero_colunas, int orientacao, int divisor) {
+  return orientacao == 1
+    ? numero_linhas / divisor
+    : numero_colunas / divisor;
+}
+
+matriz_bloco_t **particionar_matriz (mymatriz *matriz, int mat_lin, int mat_col, int orientacao, int divisor) {
+  int tamanho = tamanho_bloco(mat_lin, mat_col, orientacao, divisor);
+  matriz_bloco_t **blocos = malloc(sizeof(matriz_bloco_t) * divisor);
+  
+  for(int i=0; i<divisor; i++) {
+    matriz_bloco_t* bloco = malloc(sizeof(matriz_bloco_t));
+    bloco->matriz = matriz;
+    bloco->bloco = malloc(sizeof(bloco_t));
+
+    if(orientacao == 0) {
+      bloco->bloco->lin_inicio = i;
+      bloco->bloco->lin_fim = i+tamanho;
+    } else {
+      bloco->bloco->lin_inicio = 0;
+      bloco->bloco->lin_fim = mat_lin;
+    }
+
+    if(orientacao == 1) {
+      bloco->bloco->col_inicio = i;
+      bloco->bloco->col_fim = i+tamanho;
+    } else {
+      bloco->bloco->col_inicio = 0;
+      bloco->bloco->col_fim = mat_col;
+    }
+    
+    blocos[i] = bloco;
+  }
+
+  //return NULL;
+  return blocos;
 }
 
 matriz_bloco_t **csubmatrizv2(int mat_lin, int mat_col, int divisor){

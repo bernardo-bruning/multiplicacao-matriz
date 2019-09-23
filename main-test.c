@@ -113,17 +113,21 @@ int test_particionar_matriz_vertical() {
   };
 
   mymatriz matriz = gerar_matriz(2, 2, valores);
-  matriz_bloco_t** submatrizes = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 0, 2);
+  matriz_bloco_t **submatrizes = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 0, 2);
   
   return ASSERT(
 		submatrizes != NULL &&
 		submatrizes[0] != NULL &&
 		submatrizes[1] != NULL &&
-		submatrizes[0]->matriz[0][0] == 1 &&
-		submatrizes[0]->matriz[0][1] == 2 &&
-		submatrizes[1]->matriz[0][0] == 3 &&
-		submatrizes[1]->matriz[0][1] == 4
-		, "test_particionar_matriz");
+		submatrizes[0]->bloco->lin_inicio == 0 &&
+		submatrizes[0]->bloco->lin_fim == 1 &&
+		submatrizes[0]->bloco->col_inicio == 0 &&
+		submatrizes[0]->bloco->col_fim == 2 &&
+		submatrizes[1]->bloco->lin_inicio == 1 &&
+		submatrizes[1]->bloco->lin_fim == 2 &&
+		submatrizes[1]->bloco->col_inicio == 0 &&
+		submatrizes[1]->bloco->col_fim == 2
+		, "test_particionar_matriz_vertical");
 }
 
 int test_particionar_matriz_horizontal() {
@@ -133,17 +137,21 @@ int test_particionar_matriz_horizontal() {
   };
 
   mymatriz matriz = gerar_matriz(2, 2, valores);
-  matriz_bloco_t** submatrizes = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 1, 2);
+  matriz_bloco_t** submatrizes = particionar_matriz(&matriz, matriz.lin, matriz.col, 1, 2);
   
   return ASSERT(
 		submatrizes != NULL &&
 		submatrizes[0] != NULL &&
 		submatrizes[1] != NULL &&
-		submatrizes[0]->matriz[0][0] == 1 &&
-		submatrizes[0]->matriz[1][0] == 3 &&
-		submatrizes[1]->matriz[0][0] == 2 &&
-		submatrizes[1]->matriz[1][0] == 4
-		, "test_particionar_matriz");
+		submatrizes[0]->bloco->lin_inicio == 0 &&
+		submatrizes[0]->bloco->lin_fim == 2 &&
+		submatrizes[0]->bloco->col_inicio == 0 &&
+		submatrizes[0]->bloco->col_fim == 1 &&
+		submatrizes[1]->bloco->lin_inicio == 0 &&
+		submatrizes[1]->bloco->lin_fim == 2 &&
+		submatrizes[1]->bloco->col_inicio == 1 &&
+		submatrizes[1]->bloco->col_fim == 2
+		, "test_particionar_matriz_horizontal");
 }
 
 int test_aloca_matrizes_bloco() {
