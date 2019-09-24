@@ -188,7 +188,6 @@ int test_multiplica_submatriz() {
   int result = mmsubmatriz(submatrizesa[0], submatrizesb[0], matrizresult[0]) &&
     mmsubmatriz(submatrizesa[1], submatrizesb[1], matrizresult[1]);
 
-  mymatriz* matriz = msomar(matrizresult[0]->matriz, matrizresult[1]->matriz, 1);
   return ASSERT(result &&
 		matrizresult[0]->matriz->matriz[0][0] == 1 &&
 		matrizresult[0]->matriz->matriz[0][1] == 2 &&
