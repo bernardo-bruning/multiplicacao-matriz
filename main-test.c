@@ -113,7 +113,7 @@ int test_particionar_matriz_vertical() {
   };
 
   mymatriz matriz = gerar_matriz(2, 2, valores);
-  matriz_bloco_t **submatrizes = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 0, 2);
+  matriz_bloco_t **submatrizes = particionar_matriz(&matriz, matriz.lin, matriz.col, 0, 2);
   
   return ASSERT(
 		submatrizes != NULL &&
@@ -155,26 +155,50 @@ int test_particionar_matriz_horizontal() {
 }
 
 int test_aloca_matrizes_bloco() {
-  matriz_bloco_t** submatrizes = csubmatrizv2(1, 2, 2);
+  matriz_bloco_t** submatrizes = csubmatrizv2(4, 4, 2);
   return ASSERT(
 		submatrizes != NULL &&
 		submatrizes[0] != NULL &&
 		submatrizes[1] != NULL &&
-		submatrizes[0]->mat_lin == 1 &&
-		submatrizes[0]->mat_col == 2 &&
-		submatrizes[0]->divisor == 2 &&
+		submatrizes[0]->matriz->lin == 4 &&
+		submatrizes[1]->matriz->col == 4 &&
 		submatrizes[0]->bloco != NULL &&
-		submatrizes[0]->bloco->lin_inicio == 0 &&
-		submatrizes[0]->bloco->lin_fim == 0 &&
-		submatrizes[0]->matriz != NULL &&
-		submatrizes[1]->mat_lin == 1 &&
-		submatrizes[1]->mat_col == 2 &&
-		submatrizes[1]->divisor == 2 &&
-		submatrizes[1]->bloco != NULL &&
-		submatrizes[1]->bloco->lin_inicio == 1 &&
-		submatrizes[1]->bloco->lin_fim == 1 &&
-		submatrizes[1]->matriz != NULL
+		submatrizes[1]->bloco != NULL
 		, "test_aloca_matrizes_bloco");
+}
+
+int test_multiplica_submatriz() {
+  int valoresa[2][2] = {
+    {1,2},
+    {3,4}
+  };
+
+  int valoresb[2][2] = {
+    {1,2},
+    {3,4}
+  };
+
+  mymatriz matriza = gerar_matriz(2, 2, valoresa);
+  matriz_bloco_t** submatrizesa = particionar_matriz(&matriza, matriza.lin, matriza.col, 1, 2);
+
+  mymatriz matrizb = gerar_matriz(2, 2, valoresb);
+  matriz_bloco_t** submatrizesb = particionar_matriz(&matrizb, matrizb.lin, matrizb.col, 0, 2);
+
+  matriz_bloco_t** matrizresult = csubmatrizv2(2, 2, 2);
+  int result = mmsubmatriz(submatrizesa[0], submatrizesb[0], matrizresult[0]) &&
+    mmsubmatriz(submatrizesa[1], submatrizesb[1], matrizresult[1]);
+
+  mymatriz* matriz = msomar(matrizresult[0]->matriz, matrizresult[1]->matriz, 1);
+  return ASSERT(result &&
+		matrizresult[0]->matriz->matriz[0][0] == 1 &&
+		matrizresult[0]->matriz->matriz[0][1] == 2 &&
+		matrizresult[0]->matriz->matriz[1][0] == 3 &&
+		matrizresult[0]->matriz->matriz[1][1] == 6 &&
+		matrizresult[1]->matriz->matriz[0][0] == 6 &&
+		matrizresult[1]->matriz->matriz[0][1] == 8 &&
+		matrizresult[1]->matriz->matriz[1][0] == 12 &&
+		matrizresult[1]->matriz->matriz[1][1] == 16
+		, "test_multiplica_submatriz");
 }
 
 int test_matrizes() {
@@ -193,6 +217,7 @@ int test_matrizes() {
   result += test_mmultiplicar_multiplicado(4);
   result += test_mmultiplicar_multiplicado(5);
   result += test_mmultiplicar_multiplicado(6);
+  result += test_multiplica_submatriz();
   return result;
 }
 

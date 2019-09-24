@@ -1,4 +1,5 @@
 #include"matrizv3.h"
+#define DEBUG 0
 
 int mcomparar(mymatriz* matriza, mymatriz* matrizb) {
   int linha_diferente = matriza->lin != matrizb->lin;
@@ -122,14 +123,75 @@ matriz_bloco_t **particionar_matriz (mymatriz *matriz, int mat_lin, int mat_col,
       bloco->bloco->col_inicio = 0;
       bloco->bloco->col_fim = mat_col;
     }
-    
+
+    //msubimprimir(bloco);
     blocos[i] = bloco;
   }
 
-  //return NULL;
   return blocos;
 }
 
-matriz_bloco_t **csubmatrizv2(int mat_lin, int mat_col, int divisor){
-  return NULL;
+matriz_bloco_t** csubmatrizv2(int mat_lin, int mat_col, int divisor){
+  matriz_bloco_t** matrizes_blocos = malloc(sizeof(matriz_bloco_t*) * divisor);
+
+  for(int i=0; i<divisor; i++){
+    matriz_bloco_t* matriz_bloco = malloc(sizeof(matriz_bloco_t));
+    matriz_bloco->bloco = malloc(sizeof(bloco_t));
+    matriz_bloco->bloco->lin_inicio = 0;
+    matriz_bloco->bloco->lin_fim = mat_lin;
+    matriz_bloco->bloco->col_inicio = 0;
+    matriz_bloco->bloco->col_fim = mat_col;
+
+    mymatriz* matriz = malloc(sizeof(mymatriz));
+    matriz->lin = mat_lin;
+    matriz->col = mat_col;
+    malocar(matriz);
+
+    matriz_bloco->matriz = matriz;
+    matrizes_blocos[i] = matriz_bloco;
+  }
+  return matrizes_blocos;
+}
+
+void msubimprimir(matriz_bloco_t* matriz_bloco) {
+  printf("======================\n");
+  printf("matriz:\n");
+  printf("======================\n");
+  printf("lin_inicio: %d\n", matriz_bloco->bloco->lin_inicio);
+  printf("lin_fim: %d\n", matriz_bloco->bloco->lin_fim);
+  printf("col_inicio: %d\n", matriz_bloco->bloco->col_inicio);
+  printf("col_fim: %d\n", matriz_bloco->bloco->col_fim);
+  printf("======================\n");
+}
+
+int mmsubmatriz (matriz_bloco_t *mat_suba, matriz_bloco_t *mat_subb, matriz_bloco_t *mat_subc) {
+  int mat_suba_col = mat_suba->bloco->col_fim - mat_suba->bloco->col_inicio;
+  int mat_subb_lin = mat_subb->bloco->lin_fim - mat_subb->bloco->lin_inicio;
+
+#if DEBUG
+  printf("mat_suba_col: %d mat_subb_lin: %d\n", mat_suba_col, mat_subb_lin);
+  printf("mat_suba:\n");
+  msubimprimir(mat_suba);
+  printf("mat_subb:\n");
+  msubimprimir(mat_subb);
+#endif
+
+  
+  if(mat_suba_col != mat_subb_lin)
+    return 0;
+ 
+  for(int i=mat_suba->bloco->lin_inicio; i<mat_suba->bloco->lin_fim; i++){
+    for(int j=mat_subb->bloco->col_inicio; j<mat_subb->bloco->col_fim; j++){
+      for(int k=mat_suba->bloco->col_inicio; k<mat_suba->bloco->col_fim;k++){
+	mat_subc->matriz->matriz[i][j] +=
+	  mat_suba->matriz->matriz[i][k] * mat_subb->matriz->matriz[k][j];
+	#if DEBUG
+	printf("matriz i: %d j: %d k: %d\n", i, j, k);
+	mimprimir(mat_subc->matriz);
+	#endif
+      }
+    }
+  }
+  
+  return 1;
 }
