@@ -176,8 +176,8 @@ int test_multiplica_submatriz() {
 
   mymatriz matriz = gerar_matriz(2, 2, valores);
   
-  matriz_bloco_t** submatrizesa = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 0, 2);
-  matriz_bloco_t** submatrizesb = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 1, 2);
+  matriz_bloco_t** submatrizesa = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 1, 2);
+  matriz_bloco_t** submatrizesb = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 0, 2);
 
   matriz_bloco_t** submatrizesc = csubmatrizv2(2, 2, 2);
 
@@ -185,9 +185,11 @@ int test_multiplica_submatriz() {
   mmsubmatriz(submatrizesa[1],submatrizesb[1], submatrizesc[1]);
   
   mymatriz *matriz_result = msomar(submatrizesc[0]->matriz, submatrizesc[1]->matriz, 0);
-
-  mimprimir(matriz_result);
-  return ASSERT(1, "test_multiplica_submatriz");
+  
+  return ASSERT(matriz_result->matriz[0][0] == 13511 &&
+		matriz_result->matriz[0][1] == 8428 &&
+		matriz_result->matriz[1][0] == 7546 &&
+		matriz_result->matriz[1][1] == 6847, "test_multiplica_submatriz");
 }
 
 int test_matrizes() {
