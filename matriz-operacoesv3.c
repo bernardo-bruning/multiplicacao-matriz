@@ -10,6 +10,23 @@ mymatriz* matriz_vazia() {
   return matriz;
 }
 
+void msubimprimir(matriz_bloco_t* matriz_bloco) {
+  printf("======================\n");
+  printf("matriz:\n");
+  for(int i=matriz_bloco->bloco->lin_inicio;i<matriz_bloco->bloco->lin_fim;i++){
+    for(int j=matriz_bloco->bloco->col_inicio;j<matriz_bloco->bloco->col_fim;j++){
+      printf("matriz[%d][%d] = %d\n", i, j, matriz_bloco->matriz->matriz[i][j]);
+    }
+  }
+  printf("======================\n");
+  printf("lin_inicio: %d\n", matriz_bloco->bloco->lin_inicio);
+  printf("lin_fim: %d\n", matriz_bloco->bloco->lin_fim);
+  printf("col_inicio: %d\n", matriz_bloco->bloco->col_inicio);
+  printf("col_fim: %d\n", matriz_bloco->bloco->col_fim);
+  printf("======================\n");
+}
+
+
 
 mymatriz* msomar(mymatriz* matriza, mymatriz* matrizb, int tipo) {
   int matriz_compativeis = matriza->lin != matrizb->lin || matriza->col != matrizb->col;
@@ -22,16 +39,16 @@ mymatriz* msomar(mymatriz* matriza, mymatriz* matrizb, int tipo) {
   matriz->lin = matriza->lin;
   matriz->col = matriza->col;
   malocar(matriz);
-
+  
   if(tipo == 0){
     for(int i=0; i < matriza->lin; i++) {
-      for(int j=0; j < matrizb->col; j++) {
+      for(int j=0; j < matriza->col; j++) {
 	matriz->matriz[i][j] = matriza->matriz[i][j] + matrizb->matriz[i][j];
       }
     }
   }
   else if(tipo == 1) {
-    for(int j=0; j < matrizb->col; j++) {
+    for(int j=0; j < matriza->col; j++) {
       for(int i=0; i < matriza->lin; i++) {
 	matriz->matriz[i][j] = matriza->matriz[i][j] + matrizb->matriz[i][j];
       }
@@ -60,7 +77,7 @@ mymatriz* mmultiplicar(mymatriz* matriza, mymatriz* matrizb, int tipo) {
 
   mymatriz* matriz = malloc(sizeof(mymatriz));
   matriz->lin = matriza->lin;
-  matriz->col = matriza->col;
+  matriz->col = matrizb->col;
   malocar(matriz);
   mzerar(matriz);
 
@@ -142,6 +159,17 @@ int tamanho_bloco(int numero_linhas, int numero_colunas, int orientacao, int div
     : numero_colunas / divisor;
 }
 
+bloco_t *alocar_bloco(int lin_inicio, int lin_fim, int col_inicio, int col_fim){
+  bloco_t *bloco = malloc(sizeof(bloco_t));
+  bloco->lin_inicio = lin_inicio;
+  bloco->lin_fim = lin_fim;
+  bloco->col_inicio = col_inicio;
+  bloco->col_fim = col_fim;
+
+  return bloco;
+}
+
+
 matriz_bloco_t **particionar_matriz (int **matriz, int mat_lin, int mat_col, int orientacao, int divisor) {
 
   mymatriz *mymatriz = malloc(sizeof(mymatriz));
@@ -149,38 +177,26 @@ matriz_bloco_t **particionar_matriz (int **matriz, int mat_lin, int mat_col, int
   mymatriz->col = mat_col;
   mymatriz->matriz = matriz;
   
+  matriz_bloco_t** blocos = malloc(sizeof(matriz_bloco_t*) * divisor);
 
-  
-  int tamanho = tamanho_bloco(mat_lin, mat_col, orientacao, divisor);
-  matriz_bloco_t **blocos = malloc(sizeof(matriz_bloco_t) * divisor);
-  
-  for(int i=0; i<divisor; i++) {
-    matriz_bloco_t* bloco = malloc(sizeof(matriz_bloco_t));
-    bloco->matriz = mymatriz;
-    bloco->bloco = malloc(sizeof(bloco_t));
-
-    if(orientacao == 0) {
-      bloco->bloco->lin_inicio = i;
-      bloco->bloco->lin_fim = i+tamanho;
-    } else {
-      bloco->bloco->lin_inicio = 0;
-      bloco->bloco->lin_fim = mat_lin;
-    }
-
-    if(orientacao == 1) {
-      bloco->bloco->col_inicio = i;
-      bloco->bloco->col_fim = i+tamanho;
-    } else {
-      bloco->bloco->col_inicio = 0;
-      bloco->bloco->col_fim = mat_col;
-    }
-
-    //msubimprimir(bloco);
-    blocos[i] = bloco;
+  for(int i = 0; i < divisor; i++) {
+    int tamanho = orientacao == 0 ? mat_lin/divisor : mat_col/divisor;
+    int deslocamento_inicio = i * tamanho;
+    int deslocamento_final = (i+1) * tamanho;
+    matriz_bloco_t* matriz_bloco = malloc(sizeof(matriz_bloco_t));
+    matriz_bloco->bloco = alocar_bloco(
+				       !orientacao ? deslocamento_inicio : 0,
+				       !orientacao ? deslocamento_final : mat_lin,
+				       orientacao ? deslocamento_inicio : 0,
+				       orientacao ? deslocamento_final: mat_col);
+    matriz_bloco->matriz = mymatriz;
+    //msubimprimir(matriz_bloco);
+    blocos[i] = matriz_bloco;
   }
-
+  
   return blocos;
 }
+
 
 matriz_bloco_t** csubmatrizv2(int mat_lin, int mat_col, int divisor){
   matriz_bloco_t** matrizes_blocos = malloc(sizeof(matriz_bloco_t*) * divisor);
@@ -204,45 +220,24 @@ matriz_bloco_t** csubmatrizv2(int mat_lin, int mat_col, int divisor){
   return matrizes_blocos;
 }
 
-void msubimprimir(matriz_bloco_t* matriz_bloco) {
-  printf("======================\n");
-  printf("matriz:\n");
-  printf("======================\n");
-  printf("lin_inicio: %d\n", matriz_bloco->bloco->lin_inicio);
-  printf("lin_fim: %d\n", matriz_bloco->bloco->lin_fim);
-  printf("col_inicio: %d\n", matriz_bloco->bloco->col_inicio);
-  printf("col_fim: %d\n", matriz_bloco->bloco->col_fim);
-  printf("======================\n");
-}
 
 int mmsubmatriz (matriz_bloco_t *mat_suba, matriz_bloco_t *mat_subb, matriz_bloco_t *mat_subc) {
-  int mat_suba_col = mat_suba->bloco->col_fim - mat_suba->bloco->col_inicio;
-  int mat_subb_lin = mat_subb->bloco->lin_fim - mat_subb->bloco->lin_inicio;
-
-#if DEBUG
-  printf("mat_suba_col: %d mat_subb_lin: %d\n", mat_suba_col, mat_subb_lin);
-  printf("mat_suba:\n");
-  msubimprimir(mat_suba);
-  printf("mat_subb:\n");
-  msubimprimir(mat_subb);
-#endif
-
-  
-  if(mat_suba_col != mat_subb_lin)
+  if(!mat_suba || !mat_subb || !mat_subc) {
+    printf("Matrizes nulas!");
     return 0;
- 
+  }
+  
+  if(mat_suba->matriz->col != mat_subb->matriz->lin){
+    printf("Matrizes com tamanhos diferentes!");
+    return 0;
+  }
+  
   for(int i=mat_suba->bloco->lin_inicio; i<mat_suba->bloco->lin_fim; i++){
-    for(int j=mat_subb->bloco->col_inicio; j<mat_subb->bloco->col_fim; j++){
-      for(int k=mat_suba->bloco->col_inicio; k<mat_suba->bloco->col_fim;k++){
-	mat_subc->matriz->matriz[i][j] +=
-	  mat_suba->matriz->matriz[i][k] * mat_subb->matriz->matriz[k][j];
-	#if DEBUG
-	printf("matriz i: %d j: %d k: %d\n", i, j, k);
-	mimprimir(mat_subc->matriz);
-	#endif
+    for(int k = mat_suba->bloco->col_inicio; k<mat_suba->bloco->col_fim; k++) {
+      for(int j = mat_subb->bloco->col_inicio; j<mat_subb->bloco->col_fim; j++) {
+	mat_subc->matriz->matriz[i][j] += mat_suba->matriz->matriz[i][k] * mat_subb->matriz->matriz[k][j]; 
       }
     }
   }
-  
   return 1;
 }

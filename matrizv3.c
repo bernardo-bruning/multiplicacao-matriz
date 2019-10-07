@@ -14,12 +14,14 @@ int mcomparar(mymatriz* matriza, mymatriz* matrizb) {
   for(int i=0; i<matriza->lin; i++) {
     for(int j=0; j<matriza->col; j++) {
       if(matriza->matriz[i][j] != matrizb->matriz[i][j]){
-	printf("matrizA[%d][%d] = %d é diferente de matrizB[%d][%d] = %d\n", i, j, matriza->matriz[i][j], j, i, matrizb->matriz[j][i]);
+	printf("matrizA[%d][%d] = %d é diferente de matrizB[%d][%d] = %d\n", i, j, matriza->matriz[i][j], i, j, matrizb->matriz[i][j]);
 	igual = 0;
       }
     }
   }
-  
+
+  if(igual)
+    printf("matrizes são iguais!\n");
   return igual;
 }
   
@@ -44,7 +46,7 @@ int mgerar(mymatriz* matriz, int valor) {
   for(int i=0; i<matriz->lin; i++) {
     for(int j=0; j<matriz->col; j++){
       if(matriz->matriz[i] == NULL) return 0;
-      if(valor == -9999) matriz->matriz[i][j] = rand(); 
+      if(valor == -9999) matriz->matriz[i][j] = rand() % 100; 
       else matriz->matriz[i][j] = valor;
     }
   }

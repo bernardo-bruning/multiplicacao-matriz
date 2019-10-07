@@ -168,36 +168,26 @@ int test_aloca_matrizes_bloco() {
 }
 
 int test_multiplica_submatriz() {
-  int valoresa[2][2] = {
-    {1,2},
-    {3,4}
+  int valores[2][2] = {
+    {83,86},
+    {77,15}
   };
 
-  int valoresb[2][2] = {
-    {1,2},
-    {3,4}
-  };
 
-  mymatriz matriza = gerar_matriz(2, 2, valoresa);
-  matriz_bloco_t** submatrizesa = particionar_matriz(matriza.matriz, matriza.lin, matriza.col, 1, 2);
+  mymatriz matriz = gerar_matriz(2, 2, valores);
+  
+  matriz_bloco_t** submatrizesa = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 0, 2);
+  matriz_bloco_t** submatrizesb = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 1, 2);
 
-  mymatriz matrizb = gerar_matriz(2, 2, valoresb);
-  matriz_bloco_t** submatrizesb = particionar_matriz(matrizb.matriz, matrizb.lin, matrizb.col, 0, 2);
+  matriz_bloco_t** submatrizesc = csubmatrizv2(2, 2, 2);
 
-  matriz_bloco_t** matrizresult = csubmatrizv2(2, 2, 2);
-  int result = mmsubmatriz(submatrizesa[0], submatrizesb[0], matrizresult[0]) &&
-    mmsubmatriz(submatrizesa[1], submatrizesb[1], matrizresult[1]);
+  mmsubmatriz(submatrizesa[0],submatrizesb[0], submatrizesc[0]);
+  mmsubmatriz(submatrizesa[1],submatrizesb[1], submatrizesc[1]);
+  
+  mymatriz *matriz_result = msomar(submatrizesc[0]->matriz, submatrizesc[1]->matriz, 0);
 
-  return ASSERT(result &&
-		matrizresult[0]->matriz->matriz[0][0] == 1 &&
-		matrizresult[0]->matriz->matriz[0][1] == 2 &&
-		matrizresult[0]->matriz->matriz[1][0] == 3 &&
-		matrizresult[0]->matriz->matriz[1][1] == 6 &&
-		matrizresult[1]->matriz->matriz[0][0] == 6 &&
-		matrizresult[1]->matriz->matriz[0][1] == 8 &&
-		matrizresult[1]->matriz->matriz[1][0] == 12 &&
-		matrizresult[1]->matriz->matriz[1][1] == 16
-		, "test_multiplica_submatriz");
+  mimprimir(matriz_result);
+  return ASSERT(1, "test_multiplica_submatriz");
 }
 
 int test_matrizes() {
