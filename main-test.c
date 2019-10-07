@@ -113,7 +113,7 @@ int test_particionar_matriz_vertical() {
   };
 
   mymatriz matriz = gerar_matriz(2, 2, valores);
-  matriz_bloco_t **submatrizes = particionar_matriz(&matriz, matriz.lin, matriz.col, 0, 2);
+  matriz_bloco_t **submatrizes = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 0, 2);
   
   return ASSERT(
 		submatrizes != NULL &&
@@ -137,7 +137,7 @@ int test_particionar_matriz_horizontal() {
   };
 
   mymatriz matriz = gerar_matriz(2, 2, valores);
-  matriz_bloco_t** submatrizes = particionar_matriz(&matriz, matriz.lin, matriz.col, 1, 2);
+  matriz_bloco_t** submatrizes = particionar_matriz(matriz.matriz, matriz.lin, matriz.col, 1, 2);
   
   return ASSERT(
 		submatrizes != NULL &&
@@ -179,10 +179,10 @@ int test_multiplica_submatriz() {
   };
 
   mymatriz matriza = gerar_matriz(2, 2, valoresa);
-  matriz_bloco_t** submatrizesa = particionar_matriz(&matriza, matriza.lin, matriza.col, 1, 2);
+  matriz_bloco_t** submatrizesa = particionar_matriz(matriza.matriz, matriza.lin, matriza.col, 1, 2);
 
   mymatriz matrizb = gerar_matriz(2, 2, valoresb);
-  matriz_bloco_t** submatrizesb = particionar_matriz(&matrizb, matrizb.lin, matrizb.col, 0, 2);
+  matriz_bloco_t** submatrizesb = particionar_matriz(matrizb.matriz, matrizb.lin, matrizb.col, 0, 2);
 
   matriz_bloco_t** matrizresult = csubmatrizv2(2, 2, 2);
   int result = mmsubmatriz(submatrizesa[0], submatrizesb[0], matrizresult[0]) &&

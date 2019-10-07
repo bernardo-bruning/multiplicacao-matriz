@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "matrizv3.h"
 
 #ifndef SOME_HEADER_FILE_H
 #define SOME_HEADER_FILE_H
+
+typedef struct {
+  int **matriz;
+  int lin;
+  int col;
+} mymatriz;
+
 typedef struct {
   int lin_inicio;
   int lin_fim;
@@ -12,20 +20,11 @@ typedef struct {
 } bloco_t;
 
 typedef struct {
-  int **matriz;
+  mymatriz *matriz;
   bloco_t *bloco;
-  int mat_col;
-  int mat_lin;
-  int divisor;
 } matriz_bloco_t;
 
-typedef struct {
-  int **matriz;
-  int lin;
-  int col;
-} mymatriz;
 #endif
-
 
 // externos a biblioteca tools
 double wtime();

@@ -4,12 +4,6 @@
 
 #ifndef SOME_HEADER_FILE_H
 #define SOME_HEADER_FILE_H
-typedef struct {
-  int lin_inicio;
-  int lin_fim;
-  int col_inicio;
-  int col_fim;
-} bloco_t;
 
 typedef struct {
   int **matriz;
@@ -18,15 +12,20 @@ typedef struct {
 } mymatriz;
 
 typedef struct {
+  int lin_inicio;
+  int lin_fim;
+  int col_inicio;
+  int col_fim;
+} bloco_t;
+
+typedef struct {
   mymatriz *matriz;
   bloco_t *bloco;
-  int mat_col;
-  int mat_lin;
-  int divisor;
 } matriz_bloco_t;
+
 #endif
 
-// gerência de matrizes
+// gerencia de matrizes
 int malocar (mymatriz *matriz);
 int mgerar(mymatriz *matriz, int valor);
 int mimprimir (mymatriz *matriz);
@@ -34,13 +33,8 @@ int mzerar (mymatriz *matriz);
 int mliberar (mymatriz *matriz);
 int mcomparar (mymatriz *mat_a, mymatriz *mat_b);
 
-// submatriz
-int gerar_submatriz (int **mat_origem, matriz_bloco_t *submatriz, bloco_t *bloco);
-int imprimir_submatriz (matriz_bloco_t *submatriz);
-matriz_bloco_t **particionar_matriz (mymatriz *matriz, int mat_lin, int mat_col, int orientacao, int divisor);
-matriz_bloco_t **liberar_submatriz (matriz_bloco_t **submatriz);
-int imprimir_bloco (matriz_bloco_t *submatriz);
-matriz_bloco_t **constroi_submatriz (int **matriz, int mat_lin, int mat_col, int divisor);
-matriz_bloco_t **constroi_submatrizv2 (int mat_lin, int mat_col, int divisor);
-matriz_bloco_t **csubmatrizv2(int mat_lin, int mat_col, int divisor);
-int mmsubmatriz(matriz_bloco_t *mat_suba, matriz_bloco_t *mat_subb, matriz_bloco_t *mat_subc);
+
+// debug de matriz
+//void dump_matriz(mymatriz *matriz);
+//void dump_matriz_bloco(matriz_bloco_t *matriz_bloco);
+//void dump_bloco(bloco_t *bloco);

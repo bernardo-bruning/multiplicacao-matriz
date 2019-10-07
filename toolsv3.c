@@ -275,6 +275,7 @@ int extrai_parametros_matriz ( FILE *const fin, int* linha,
     #endif
 
     if (linha != (nr_line -2)) {
+      printf("linha: %d", linha);
       printf("ERRO: Numero de linha da matriz nao esta correta!\n");
       exit (1);
     }
