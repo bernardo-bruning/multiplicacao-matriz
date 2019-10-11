@@ -34,8 +34,8 @@ mainEx02: mainEx02.c matrizv3.o toolsv3.o matriz-operacoesv3.o
 mainEx03: mainEx03a.c matrizv3.o toolsv3.o matriz-operacoesv3.o
 	$(CC) $(CCFLAGS) matriz-operacoesv3.o matrizv3.o toolsv3.o mainEx03a.c -o $@ $(LDFLAGS)
 
-mainEx04: mainEx04.c matrizv3.o toolsv3.o matriz-operacoesv3.o matriz_thread.o
-	$(CC) $(CCFLAGS) matriz-operacoesv3.o matriz_thread.o matrizv3.o toolsv3.o mainEx03a.c -lpthread -o $@ $(LDFLAGS)
+mainEx04: mainEx04.o matrizv3.o toolsv3.o matriz-operacoesv3.o matriz_thread.o
+	$(CC) $(CCFLAGS) matriz-operacoesv3.o matriz_thread.o matrizv3.o toolsv3.o mainEx04.o -lpthread -o $@ $(LDFLAGS)
 
 gmat: matrizv3.o toolsv3.o gera_matrizv3.c
 		$(CC) $(CCFLAGS) matrizv3.o toolsv3.o gera_matrizv3.c -o $@ $(LDFLAGS)
