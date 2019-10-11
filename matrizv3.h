@@ -33,7 +33,10 @@ int mzerar (mymatriz *matriz);
 int mliberar (mymatriz *matriz);
 int mcomparar (mymatriz *mat_a, mymatriz *mat_b);
 
-mymatriz* criar_matriz(int lin, int col);
+mymatriz *criar_matriz(int altura, int largura, int valores[largura][altura]);
+mymatriz *criar_matriz_vazia(int altura, int largura);
+
+matriz_bloco_t *criar_matriz_bloco(int lin_inicio, int col_inicio, int lin_fim, int col_fim, mymatriz *matriz);
 
 // debug de matriz
 //void dump_matriz(mymatriz *matriz);

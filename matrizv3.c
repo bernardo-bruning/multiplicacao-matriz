@@ -2,17 +2,6 @@
 #define DEBUG 0
 
 
-mymatriz* criar_matriz(int lin, int col) {
-  mymatriz *matriz = malloc(sizeof(mymatriz));
-  matriz->lin = lin;
-  matriz->col = col;
-  malocar(matriz);
-  mgerar(matriz, -9999);
-
-  return matriz;
-}
-
-
 int mcomparar(mymatriz* matriza, mymatriz* matrizb) {
   int linha_diferente = matriza->lin != matrizb->lin;
   int coluna_diferente = matriza->col != matrizb->col;
@@ -105,4 +94,47 @@ int malocar(mymatriz* matriz) {
     }
   }
   return 1;
+}
+
+
+mymatriz *criar_matriz(int altura, int largura, int valores[largura][altura]) {
+  mymatriz *self = malloc(sizeof(mymatriz));
+  self->lin = altura;
+  self->col = largura;
+  malocar(self);
+
+  for(int x=0;x<largura;x++) {
+    for(int y=0;y<altura;y++) {
+      self->matriz[x][y] = valores[x][y];
+    }
+  }
+
+  return self;
+}
+
+
+mymatriz *criar_matriz_vazia(int altura, int largura) {
+  mymatriz *self = malloc(sizeof(mymatriz));
+  self->lin = altura;
+  self->col = largura;
+  malocar(self);
+  mzerar(self);
+
+  return self;
+}
+
+bloco_t *criar_bloco(int lin_inicio, int col_inicio, int lin_fim, int col_fim) {
+  bloco_t *bloco = malloc(sizeof(bloco_t));
+  bloco->lin_inicio = lin_inicio;
+  bloco->col_inicio = col_inicio;
+  bloco->lin_fim = lin_fim;
+  bloco->col_fim = col_fim;
+  return bloco;
+}
+
+matriz_bloco_t *criar_matriz_bloco(int lin_inicio, int col_inicio, int lin_fim, int col_fim, mymatriz *matriz) {
+  matriz_bloco_t *self = malloc(sizeof(matriz_bloco_t));
+  self->bloco = criar_bloco(lin_inicio, col_inicio, lin_fim, col_fim);
+  self->matriz = matriz;
+  return self;
 }
