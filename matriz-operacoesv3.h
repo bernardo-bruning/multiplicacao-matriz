@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #ifndef SOME_HEADER_FILE_H
 #define SOME_HEADER_FILE_H

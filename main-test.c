@@ -3,6 +3,7 @@
 #include"matriz-operacoesv3.h"
 #include"test.h"
 #include"main_tests.h"
+#include"matriz-operacoes-threads.h"
 
 int test_msoma_diferente() {
   mymatriz matriz_a;
@@ -192,6 +193,19 @@ int test_multiplica_submatriz() {
 		matriz_result->matriz[1][1] == 6847, "test_multiplica_submatriz");
 }
 
+
+int teste_multiplicacao_bloco_thread() {
+  mymatriz *matriz_a = criar_matriz(50, 50);
+  mymatriz *matriz_b = criar_matriz(50, 50);
+  
+  mymatriz *matriz_sequencial =  mmultiplicar(matriz_a, matriz_b, 0);
+  mymatriz *matriz_paralela = mmultiplicar_thread(matriz_a, matriz_b);
+
+  return ASSERT(
+		mcomparar(matriz_sequencial, matriz_paralela),
+		"teste_multiplicacao_bloco_thread");
+}
+
 int test_matrizes() {
   int result = 0;
   result += test_msoma_diferente();
@@ -209,6 +223,7 @@ int test_matrizes() {
   result += test_mmultiplicar_multiplicado(5);
   result += test_mmultiplicar_multiplicado(6);
   result += test_multiplica_submatriz();
+  result += teste_multiplicacao_bloco_thread();
   return result;
 }
 

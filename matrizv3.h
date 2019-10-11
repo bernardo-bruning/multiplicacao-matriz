@@ -33,6 +33,7 @@ int mzerar (mymatriz *matriz);
 int mliberar (mymatriz *matriz);
 int mcomparar (mymatriz *mat_a, mymatriz *mat_b);
 
+mymatriz* criar_matriz(int lin, int col);
 
 // debug de matriz
 //void dump_matriz(mymatriz *matriz);

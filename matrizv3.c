@@ -1,6 +1,18 @@
 #include"matrizv3.h"
 #define DEBUG 0
 
+
+mymatriz* criar_matriz(int lin, int col) {
+  mymatriz *matriz = malloc(sizeof(mymatriz));
+  matriz->lin = lin;
+  matriz->col = col;
+  malocar(matriz);
+  mgerar(matriz, -9999);
+
+  return matriz;
+}
+
+
 int mcomparar(mymatriz* matriza, mymatriz* matrizb) {
   int linha_diferente = matriza->lin != matrizb->lin;
   int coluna_diferente = matriza->col != matrizb->col;
