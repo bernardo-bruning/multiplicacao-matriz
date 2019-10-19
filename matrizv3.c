@@ -27,7 +27,6 @@ int mcomparar(mymatriz* matriza, mymatriz* matrizb) {
 }
   
 int mimprimir(mymatriz* matriz) {
-  return 1;
   if(matriz == NULL || matriz->matriz == NULL || matriz->lin == 0 || matriz->col == 0)
     return 0;
   
