@@ -1,4 +1,5 @@
 #include <omp.h>
+#include"timer.h"
 #include"multiplicacao_matriz.h"
 #include"multiplicacao_matriz_bloco.h"
 #include"matriz-operacoes-omp.h"
@@ -34,6 +35,7 @@ void mmsubmatriz_omp(matriz_bloco_t *mat_a, matriz_bloco_t *mat_b, matriz_bloco_
 
 
 int main(int argc, char** argv) {
+  timer *timer = criar_timer();
   mymatriz *esquerda = criar_matriz_vazia(10000, 10000);
   mymatriz *direita = criar_matriz_vazia(10000, 10000);
   mymatriz *resultado = criar_matriz_vazia(10000, 10000);
@@ -41,10 +43,14 @@ int main(int argc, char** argv) {
   mgerar(esquerda, 2);
   mgerar(direita, 2);
 
-  matriz_bloco_t *esquerda_bloco = criar_matriz_bloco(0, 0, 100, 10000, esquerda);
+  matriz_bloco_t *esquerda_bloco = criar_matriz_bloco(0, 0, 1000, 10000, esquerda);
   matriz_bloco_t *direita_bloco = criar_matriz_bloco(0, 0, 10000, 1000, direita);
-  matriz_bloco_t *resultado_bloco = criar_matriz_bloco(0, 0, 100, 1000, resultado);
+  matriz_bloco_t *resultado_bloco = criar_matriz_bloco(0, 0, 1000, 1000, resultado);
+
+  timer_iniciar(timer);
   mmsubmatriz_omp(esquerda_bloco, direita_bloco, resultado_bloco); 
+  timer_encerrar(timer);
+  timer_imprimir(timer);
   //mymatriz *resultado = multiplicar_omp(esquerda, direita, 0);
 
   //mimprimir(resultado);
