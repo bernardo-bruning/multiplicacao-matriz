@@ -2,6 +2,9 @@
 #include<stdlib.h>
 #include<pthread.h>
 
+
+#ifndef _PARALELISMOH_
+#define _PARALELISMOH_
 typedef struct paralelismo {
   int capacidade;
   void* (*funcao)(void *);
@@ -40,3 +43,4 @@ void forca_deletar_paralelismo(paralelismo *self);
  * Permite deletar o paralelismo da memoria garantindo que todos as threads foram finalizadas.
  **/
 void deletar_paralelismo(paralelismo *self);
+#endif

@@ -1,7 +1,6 @@
 #include"paralelismo.h"
 #include"multiplicacao_matriz_fragmento.h"
 
-
 typedef struct {
   int capacidade;
   multiplicacao_matriz *matriz;

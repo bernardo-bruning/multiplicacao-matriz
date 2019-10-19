@@ -1,4 +1,3 @@
-#include<stdio.h>
 #include"multiplicacao_matriz_fragmento.h"
 
 
