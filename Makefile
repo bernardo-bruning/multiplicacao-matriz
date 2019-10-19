@@ -27,15 +27,14 @@ teste_thread:
 	$(CC) $(CCFLAGS) matriz_thread.c matrizv3.c -lpthread -o matriz_thread
 
 
-
 mainEx02: mainEx02.c matrizv3.o toolsv3.o matriz-operacoesv3.o
 		$(CC) $(CCFLAGS) matriz-operacoesv3.o matrizv3.o toolsv3.o mainEx02.c -o $@ $(LDFLAGS)
 
 mainEx03: mainEx03a.c matrizv3.o toolsv3.o matriz-operacoesv3.o
 	$(CC) $(CCFLAGS) matriz-operacoesv3.o matrizv3.o toolsv3.o mainEx03a.c -o $@ $(LDFLAGS)
 
-mainEx04: mainEx04.o matrizv3.o toolsv3.o matriz-operacoesv3.o matriz_thread.o
-	$(CC) $(CCFLAGS) matriz-operacoesv3.o matriz_thread.o matrizv3.o toolsv3.o mainEx04.o -lpthread -o $@ $(LDFLAGS)
+mainEx04: mainEx04.o matrizv3.o toolsv3.o matriz-operacoesv3.o matriz_thread.o paralelismo.o multiplicacao_matriz.o multiplicacao_matriz_fragmento.o multiplicacao_matriz_paralela.o
+	$(CC) $(CCFLAGS) matriz-operacoesv3.o matriz_thread.o matrizv3.o toolsv3.o mainEx04.o paralelismo.o multiplicacao_matriz.o multiplicacao_matriz_fragmento.o multiplicacao_matriz_paralela.o -lpthread -o $@ $(LDFLAGS)
 
 gmat: matrizv3.o toolsv3.o gera_matrizv3.c
 		$(CC) $(CCFLAGS) matrizv3.o toolsv3.o gera_matrizv3.c -o $@ $(LDFLAGS)
