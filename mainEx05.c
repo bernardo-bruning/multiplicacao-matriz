@@ -6,6 +6,9 @@
 #include "matriz-operacoesv3.h"
 #include "matriz-operacoes-omp.h"
 
+double speedup(double tempo_sequencial, double tempo_paralelo);
+void imprime_speedup(char* descricao, double tempo_sequencial, double tempo_paralelo);
+
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 int main(int argc, char *argv[]) {
 
@@ -179,6 +182,8 @@ int main(int argc, char *argv[]) {
   printf("tempo médio matriz sequencial bloco: %.6f\n", tempos[1]);
   printf("tempo médio matriz paralela: %.6f\n", tempos[2]);
   printf("tempo médio matriz paralela bloco: %.6f\n", tempos[3]);
+  imprime_speedup("speedup matriz:", tempos[0], tempos[2]);
+  imprime_speedup("speedup matriz bloco:", tempos[1], tempos[3]);
   
   // %%%%%%%%%%%%%%%%%%%%%%%% END %%%%%%%%%%%%%%%%%%%%%%%%
   // %%%%%%%%%%%%%%%%%%%%%%%% BEGIN %%%%%%%%%%%%%%%%%%%%%%%%
@@ -195,4 +200,13 @@ int main(int argc, char *argv[]) {
   // %%%%%%%%%%%%%%%%%%%%%%%% END %%%%%%%%%%%%%%%%%%%%%%%%
 
   return 0;
+}
+
+double speedup(double tempo_sequencial, double tempo_paralelo) {
+  if(tempo_paralelo == 0) return 0;
+  return tempo_sequencial / tempo_paralelo;
+}
+
+void imprime_speedup(char* descricao, double tempo_sequencial, double tempo_paralelo) {
+  printf("%s: %f\n", descricao, speedup(tempo_sequencial, tempo_paralelo));
 }
